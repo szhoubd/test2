@@ -292,7 +292,103 @@ void drawBox( double x, double y, double z )
         glMatrixMode( savemode );
     }
 }
+void drawPalm(double x, double y, double z)
+{
+    ModelerDrawState* mds = ModelerDrawState::Instance();
 
+    _setupOpenGl();
+
+    if (mds->m_rayFile)
+    {
+        _dump_current_modelview();
+        fprintf(mds->m_rayFile,
+            "scale(%f,%f,%f,translate(0.5,0.5,0.5,box {\n", x, y, z);
+        _dump_current_material();
+        fprintf(mds->m_rayFile, "})))\n");
+    }
+    else
+    {
+        /* remember which matrix mode OpenGL was in. */
+        int savemode;
+        glGetIntegerv(GL_MATRIX_MODE, &savemode);
+
+        /* switch to the model matrix and scale by x,y,z. */
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glScaled(x, y, z);
+
+        glBegin(GL_QUADS);
+        //back left
+        glNormal3d(0.0, 0.0, -1.0);
+        glVertex3d(0.0, 0.0, 0.0); glVertex3d(0.0, 1.0, 0.0);
+        glVertex3d(0.25, 1.0, 0.0); glVertex3d(0.25, 0.0, 0.0);
+
+        //back right
+        glNormal3d(0.0, 0.0, -1.0);
+        glVertex3d(0.75, 0.0, 0.0); glVertex3d(0.75, 1.0, 0.0);
+        glVertex3d(1.0, 1.0, 0.0); glVertex3d(1.0, 0.0, 0.0);
+
+        //back middle
+        glNormal3d(0.0, 0.0, -1.0);
+        glVertex3d(0.25, 0.0, 0.0); glVertex3d(0.25, 0.5, 0.0);
+        glVertex3d(0.75, 0.5, 0.0); glVertex3d(0.75, 0.0, 0.0);
+        //front left
+        glNormal3d(0.0, 0.0, 1.0);
+        glVertex3d(0.0, 0.0, 1.0); glVertex3d(0.0, 1.0, 1.0);
+        glVertex3d(0.25, 1.0, 1.0); glVertex3d(0.25, 0.0, 1.0);
+        //front right
+        glNormal3d(0.0, 0.0, 1.0);
+        glVertex3d(0.75, 0.0, 1.0); glVertex3d(0.75, 1.0, 1.0);
+        glVertex3d(1.0, 1.0, 1.0); glVertex3d(1.0, 0.0, 1.0);
+
+        //front middle
+        glNormal3d(0.0, 0.0, 1.0);
+        glVertex3d(0.25, 0.0, 1.0); glVertex3d(0.25, 0.5, 1.0);
+        glVertex3d(0.75, 0.5, 1.0); glVertex3d(0.75, 0.0, 1.0);
+        //down
+        glNormal3d(0.0, -1.0, 0.0);
+        glVertex3d(0.0, 0.0, 0.0); glVertex3d(1.0, 0.0, 0.0);
+        glVertex3d(1.0, 0.0, 1.0); glVertex3d(0.0, 0.0, 1.0);
+        //left
+        glNormal3d(-1.0, 0.0, 0.0);
+        glVertex3d(0.0, 0.0, 0.0); glVertex3d(0.0, 0.0, 1.0);
+        glVertex3d(0.0, 1.0, 1.0); glVertex3d(0.0, 1.0, 0.0);
+        //right
+        glNormal3d(1.0, 0.0, 0.0);
+        glVertex3d(1.0, 0.0, 0.0); glVertex3d(1.0, 0.0, 1.0);
+        glVertex3d(1.0, 1.0, 1.0); glVertex3d(1.0, 1.0, 0.0);
+        
+        //up middle
+        glNormal3d(0.0, 1.0, 0.0);
+        glVertex3d(0.25, 0.5, 0.0); glVertex3d(0.25, 0.5, 1.0);
+        glVertex3d(0.75, 0.5, 1.0); glVertex3d(0.75, 0.5, 0.0);
+        //up right
+        glNormal3d(0.0, 1.0, 0.0);
+        glVertex3d(0.75, 1.0, 0.0); glVertex3d(0.75, 1.0, 1.0);
+        glVertex3d(1.0, 1.0, 1.0); glVertex3d(1.0, 1.0, 0.0);
+        //up left
+        glNormal3d(0.0, 1.0, 0.0);
+        glVertex3d(0.0, 1.0, 0.0); glVertex3d(0.25, 1.0, 0.0);
+        glVertex3d(0.25, 1.0, 1.0); glVertex3d(0.0, 1.0, 1.0);
+
+        //right middle
+        glNormal3d(1.0, 0.0, 0.0);
+        glVertex3d(0.25, 0.0, 0.0); glVertex3d(0.25, 1.0, 0.0);
+        glVertex3d(0.25, 1.0, 1.0); glVertex3d(0.25, 0.0, 1.0);
+        //left middle
+        glNormal3d(-1.0, 0.0, 0.0);
+        glVertex3d(0.75, 0.0, 0.0); glVertex3d(0.75, 1.0, 0.0);
+        glVertex3d(0.75, 1.0, 1.0); glVertex3d(0.75, 0.0, 1.0);
+
+
+        glEnd();
+
+        /* restore the model matrix stack, and switch back to the matrix
+        mode we were in. */
+        glPopMatrix();
+        glMatrixMode(savemode);
+    }
+}
 void drawTextureBox( double x, double y, double z )
 {
     // NOT IMPLEMENTED, SORRY (ehsu)
@@ -418,6 +514,16 @@ void drawTriangle( double x1, double y1, double z1,
 
 
 
+
+void drawPyramid(double x1, double y1, double z1,
+    double x2, double y2, double z2,
+    double x3, double y3, double z3,
+    double x4, double y4, double z4) {
+    drawTriangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
+    drawTriangle(x1, y1, z1, x2, y2, z2, x4, y4, z4);
+    drawTriangle(x1, y1, z1, x3, y3, z3, x4, y4, z4);
+    drawTriangle(x2, y2, z2, x3, y3, z3, x4, y4, z4);
+}
 
 
 
