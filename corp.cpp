@@ -63,171 +63,131 @@ void SampleModel::draw()
 	setAmbientColor(.1f, .1f, .1f);
 	setDiffuseColor(COLOR_BLUE);
 	glPushMatrix();
-	//glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
+		//glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
 
-	// rotate the whole body
-	glTranslated(0, 1.5*bodyy,0);
-	glRotated(VAL(WHOLEX), 1.0, 0.0, 0.0);
-	glRotated(VAL(WHOLEY), 0.0, 1.0, 0.0);
-	glRotated(VAL(WHOLEZ), 0.0, 0.0, 1.0);
+		// rotate the whole body
+		glTranslated(0, 1.5*bodyy,0);
+		glRotated(VAL(WHOLEX), 1.0, 0.0, 0.0);
+		glRotated(VAL(WHOLEY), 0.0, 1.0, 0.0);
+		glRotated(VAL(WHOLEZ), 0.0, 0.0, 1.0);
 
 
-	//draw body
-	//glPushMatrix();
-	//glTranslated(-1.5, 0, -2);
-	//glScaled(3, 1, 4);
-	drawBox(bodyx, bodyy, bodyz);
-	//glPopMatrix();
+		//draw body
+		//glPushMatrix();
+		//glTranslated(-1.5, 0, -2);
+		//glScaled(3, 1, 4);
+		drawBox(bodyx, bodyy, bodyz);
+		//glPopMatrix();
 
-	// draw head
-	glPushMatrix();
+		// draw head
+		glPushMatrix();
 	
-	glTranslated(bodyx/2, bodyy +headr, bodyz / 2);
-	glRotated(VAL(HEADX), 1.0, 0.0, 0.0);
-	glRotated(VAL(HEADY), 0.0, 1.0, 0.0);
-	glRotated(VAL(HEADZ), 0.0, 0.0, 1.0);
-	drawSphere(headr);
-	glPopMatrix();
+			glTranslated(bodyx/2, bodyy +headr, bodyz / 2);
+			glRotated(VAL(HEADX), 1.0, 0.0, 0.0);
+			glRotated(VAL(HEADY), 0.0, 1.0, 0.0);
+			glRotated(VAL(HEADZ), 0.0, 0.0, 1.0);
+			drawSphere(headr);
+		glPopMatrix();
 
-	//draw right arm
-	glPushMatrix();
-	glTranslated(bodyx , bodyy , bodyz / 2);
-	glRotated(VAL(RIGHTARMX), 1.0, 0.0, 0.0);
-	glRotated(VAL(RIGHTARMY), 0.0, 1.0, 0.0);
-	glRotated(VAL(RIGHTARMZ), 0.0, 0.0, 1.0);
-	drawBox(armx, army, armz);
-	glPopMatrix();
+		//draw right arm (Level 2)
+		glPushMatrix();
+			glTranslated(bodyx , bodyy , bodyz / 2);
+			glRotated(VAL(RIGHTARMX), 1.0, 0.0, 0.0);
+			glRotated(VAL(RIGHTARMY), 0.0, 1.0, 0.0);
+			glRotated(VAL(RIGHTARMZ), 0.0, 0.0, 1.0);
+			drawBox(armx, army, armz);
+			//draw right forearm (Level 3)
+			glPushMatrix();
+				glTranslated(0, army, 0);
+				glRotated(VAL(RIGHTFOREARMZ), 1.0, 0.0, 0.0);
+				glRotated(VAL(RIGHTFOREARMY), 0.0, 1.0, 0.0);
+				glRotated(VAL(RIGHTFOREARMX), 0.0, 0.0, 1.0);
+				drawBox(armx, army, armz);
+			glPopMatrix();
+		glPopMatrix();
 
-	//draw left arm
-	glPushMatrix();
-	glTranslated(-armx, bodyy, bodyz / 2);
-	glTranslated(armx, 0, 0);
-	glRotated(VAL(LEFTARMX), 1.0, 0.0, 0.0);
-	glRotated(VAL(LEFTARMY), 0.0, 1.0, 0.0);
-	glRotated(VAL(LEFTARMZ), 0.0, 0.0, 1.0);
-	glTranslated(-armx, 0,0);
-	drawBox(armx, army, armz);
-	glPopMatrix();
+		//draw left arm (Level 2)
+		glPushMatrix();
+			glTranslated(-armx, bodyy, bodyz / 2);
+			glTranslated(armx, 0, 0);
+			glRotated(VAL(LEFTARMX), 1.0, 0.0, 0.0);
+			glRotated(VAL(LEFTARMY), 0.0, 1.0, 0.0);
+			glRotated(VAL(LEFTARMZ), 0.0, 0.0, 1.0);
+			glTranslated(-armx, 0,0);
+			drawBox(armx, army, armz);
+			//draw left forearm (Level 3)
+			glPushMatrix();
+				glTranslated(0, army, 0);
+				glRotated(VAL(LEFTFOREARMX), 1.0, 0.0, 0.0);
+				glRotated(VAL(LEFTFOREARMY), 0.0, 1.0, 0.0);
+				glRotated(VAL(LEFTFOREARMZ), 0.0, 0.0, 1.0);
+				drawBox(armx, army, armz);
+			glPopMatrix();
+		glPopMatrix();
 
-	//draw right forearm
-	glPushMatrix();
-	glTranslated(bodyx, bodyy, bodyz / 2);
-	glRotated(VAL(RIGHTARMX), 1.0, 0.0, 0.0);
-	glRotated(VAL(RIGHTARMY), 0.0, 1.0, 0.0);
-	glRotated(VAL(RIGHTARMZ), 0.0, 0.0, 1.0);
-	glTranslated(0, army, 0);
-	glRotated(VAL(RIGHTFOREARMZ), 1.0, 0.0, 0.0);
-	glRotated(VAL(RIGHTFOREARMY), 0.0, 1.0, 0.0);
-	glRotated(VAL(RIGHTFOREARMX), 0.0, 0.0, 1.0);
-	drawBox(armx, army, armz);
-	glPopMatrix();
+		//draw right thigh (Level 2)
+		glPushMatrix();
+			glTranslated(bodyx, 0, bodyz / 2);
+			glRotated(VAL(RIGHTTHIGHX), 1.0, 0.0, 0.0);
+			glRotated(VAL(RIGHTTHIGHY), 0.0, 1.0, 0.0);
+			glRotated(VAL(RIGHTTHIGHZ), 0.0, 0.0, 1.0);
+			glPushMatrix();
+				glTranslated(-thighx/2, -thighy, -thighz/2);
+				drawBox(thighx, thighy, thighz);
+			glPopMatrix();
+			//draw right leg (Level 3)
+			glPushMatrix();
+				glTranslated(0, -thighy, 0);
+				glRotated(VAL(RIGHTLEGX), 1.0, 0.0, 0.0);
+				glRotated(VAL(RIGHTLEGY), 0.0, 1.0, 0.0);
+				glRotated(VAL(RIGHTLEGZ), 0.0, 0.0, 1.0);
+				glPushMatrix();
+					glTranslated(-legx / 2, -legy, -legz / 2);
+					drawBox(legx, legy, legz);
+				glPopMatrix();
+				//draw right sole (Level 4)
+				glPushMatrix();
+					glTranslated(0, -legy, 0);
+					/*glRotated(VAL(RIGHTSOLEX), 1.0, 0.0, 0.0);
+					glRotated(VAL(RIGHTSOLEY), 0.0, 1.0, 0.0);*/
+					glRotated(VAL(RIGHTSOLEX), 1.0, 0.0, 0.0);
+					glTranslated(-solex / 2, -soley, -solez / 2);
+					drawBox(solex, soley, solez);
+				glPopMatrix();
+			glPopMatrix();
+		glPopMatrix();
 
-	//draw left forearm
-	glPushMatrix();
-	glTranslated(0, bodyy, bodyz / 2);
-	glRotated(VAL(LEFTARMX), 1.0, 0.0, 0.0);
-	glRotated(VAL(LEFTARMY), 0.0, 1.0, 0.0);
-	glRotated(VAL(LEFTARMZ), 0.0, 0.0, 1.0);
-	glTranslated(0, army, 0);
-	glRotated(VAL(LEFTFOREARMX), 1.0, 0.0, 0.0);
-	glRotated(VAL(LEFTFOREARMY), 0.0, 1.0, 0.0);
-	glRotated(VAL(LEFTFOREARMZ), 0.0, 0.0, 1.0);
-	glTranslated(-armx, 0, 0);
-	drawBox(armx, army, armz);
-	glPopMatrix();
-
-
-	//draw right thigh
-	glPushMatrix();
-	glTranslated(bodyx, 0, bodyz / 2);
-	glRotated(VAL(RIGHTTHIGHX), 1.0, 0.0, 0.0);
-	glRotated(VAL(RIGHTTHIGHY), 0.0, 1.0, 0.0);
-	glRotated(VAL(RIGHTTHIGHZ), 0.0, 0.0, 1.0);
-	glTranslated(-thighx/2, -thighy, -thighz/2);
-	drawBox(thighx, thighy, thighz);
-	glPopMatrix();
-
-	//draw left thigh
-	glPushMatrix();
-	glTranslated(0, 0, bodyz / 2);
-	glRotated(VAL(LEFTTHIGHX), 1.0, 0.0, 0.0);
-	glRotated(VAL(LEFTTHIGHY), 0.0, 1.0, 0.0);
-	glRotated(VAL(LEFTTHIGHZ), 0.0, 0.0, 1.0);
-	glTranslated(-thighx / 2, -thighy, -thighz / 2);
-	drawBox(thighx, thighy, thighz);
-	glPopMatrix();
-
-	//draw right leg
-	glPushMatrix();
-	glTranslated(bodyx, 0, bodyz / 2);
-	glRotated(VAL(RIGHTTHIGHX), 1.0, 0.0, 0.0);
-	glRotated(VAL(RIGHTTHIGHY), 0.0, 1.0, 0.0);
-	glRotated(VAL(RIGHTTHIGHZ), 0.0, 0.0, 1.0);
-	glTranslated(0, -thighy, 0);
-	glRotated(VAL(RIGHTLEGX), 1.0, 0.0, 0.0);
-	glRotated(VAL(RIGHTLEGY), 0.0, 1.0, 0.0);
-	glRotated(VAL(RIGHTLEGZ), 0.0, 0.0, 1.0);
-	glTranslated(-legx / 2, -legy, -legz / 2);
-	drawBox(legx, legy, legz);
-	glPopMatrix();
-
-	//draw left leg
-	glPushMatrix();
-	glTranslated(0, 0, bodyz / 2);
-	glRotated(VAL(LEFTTHIGHX), 1.0, 0.0, 0.0);
-	glRotated(VAL(LEFTTHIGHY), 0.0, 1.0, 0.0);
-	glRotated(VAL(LEFTTHIGHZ), 0.0, 0.0, 1.0);
-	glTranslated(0, -thighy, 0);
-	glRotated(VAL(LEFTLEGX), 1.0, 0.0, 0.0);
-	glRotated(VAL(LEFTLEGY), 0.0, 1.0, 0.0);
-	glRotated(VAL(LEFTLEGZ), 0.0, 0.0, 1.0);
-	glTranslated(-legx / 2, -legy, -legz / 2);
-	drawBox(legx, legy, legz);
-	glPopMatrix();
-
-	//draw right sole
-	glPushMatrix();
-	glTranslated(bodyx, 0, bodyz / 2);
-	glRotated(VAL(RIGHTTHIGHX), 1.0, 0.0, 0.0);
-	glRotated(VAL(RIGHTTHIGHY), 0.0, 1.0, 0.0);
-	glRotated(VAL(RIGHTTHIGHZ), 0.0, 0.0, 1.0);
-	glTranslated(0, -thighy, 0);
-	glRotated(VAL(RIGHTLEGX), 1.0, 0.0, 0.0);
-	glRotated(VAL(RIGHTLEGY), 0.0, 1.0, 0.0);
-	glRotated(VAL(RIGHTLEGZ), 0.0, 0.0, 1.0);
-	glTranslated(0, -legy, 0);
-	/*glRotated(VAL(RIGHTSOLEX), 1.0, 0.0, 0.0);
-	glRotated(VAL(RIGHTSOLEY), 0.0, 1.0, 0.0);*/
-	glRotated(VAL(RIGHTSOLEX), 1.0, 0.0, 0.0);
-	glTranslated(-solex / 2, -soley, -solez / 2);
-	drawBox(solex, soley, solez);
-	glPopMatrix();
-
-	//draw left sole
-	glPushMatrix();
-	glTranslated(0, 0, bodyz / 2);
-	glRotated(VAL(LEFTTHIGHX), 1.0, 0.0, 0.0);
-	glRotated(VAL(LEFTTHIGHY), 0.0, 1.0, 0.0);
-	glRotated(VAL(LEFTTHIGHZ), 0.0, 0.0, 1.0);
-	glTranslated(0, -thighy, 0);
-	glRotated(VAL(LEFTLEGX), 1.0, 0.0, 0.0);
-	glRotated(VAL(LEFTLEGY), 0.0, 1.0, 0.0);
-	glRotated(VAL(LEFTLEGZ), 0.0, 0.0, 1.0);
-	glTranslated(0, -legy, 0);
-	/*glRotated(VAL(RIGHTSOLEX), 1.0, 0.0, 0.0);
-	glRotated(VAL(RIGHTSOLEY), 0.0, 1.0, 0.0);*/
-	glRotated(VAL(LEFTSOLEX), 1.0, 0.0, 0.0);
-	glTranslated(-solex / 2, -soley, -solez / 2);
-	drawBox(solex, soley, solez);
-	glPopMatrix();
-	/*glTranslated(0.0, 0.0, VAL(HEIGHT));
-	drawCylinder(1, 1.0, 0.9);
-
-	glTranslated(0.0, 0.0, 0.5);
-	glRotated(90, 1.0, 0.0, 0.0);
-	drawCylinder(4, 0.1, 0.2);*/
-	
-
+		//draw left thigh (Level 2)
+		glPushMatrix();
+			glTranslated(0, 0, bodyz / 2);
+			glRotated(VAL(LEFTTHIGHX), 1.0, 0.0, 0.0);
+			glRotated(VAL(LEFTTHIGHY), 0.0, 1.0, 0.0);
+			glRotated(VAL(LEFTTHIGHZ), 0.0, 0.0, 1.0);
+			glPushMatrix();
+				glTranslated(-thighx / 2, -thighy, -thighz / 2);
+				drawBox(thighx, thighy, thighz);
+			glPopMatrix();
+			//draw left leg (Level 3)
+			glPushMatrix();
+				glTranslated(0, -thighy, 0);
+				glRotated(VAL(LEFTLEGX), 1.0, 0.0, 0.0);
+				glRotated(VAL(LEFTLEGY), 0.0, 1.0, 0.0);
+				glRotated(VAL(LEFTLEGZ), 0.0, 0.0, 1.0);
+				glPushMatrix();
+					glTranslated(-legx / 2, -legy, -legz / 2);
+					drawBox(legx, legy, legz);
+				glPopMatrix();
+				//draw left sole (Level 4)
+				glPushMatrix();
+					glTranslated(0, -legy, 0);
+					/*glRotated(VAL(RIGHTSOLEX), 1.0, 0.0, 0.0);
+					glRotated(VAL(RIGHTSOLEY), 0.0, 1.0, 0.0);*/
+					glRotated(VAL(LEFTSOLEX), 1.0, 0.0, 0.0);
+					glTranslated(-solex / 2, -soley, -solez / 2);
+					drawBox(solex, soley, solez);
+				glPopMatrix();
+			glPopMatrix();
+		glPopMatrix();
 	glPopMatrix();
 }
 //WHOLEX, WHOLEY, WHOLEZ,

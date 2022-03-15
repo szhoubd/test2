@@ -193,7 +193,7 @@ void Camera::lookAt(Vec3f eye, Vec3f at, Vec3f up) {
 	Vec3f right_direction = view_direction ^ up;
 	right_direction.normalize();
 	up = right_direction ^ view_direction;
-	//up.normalize();
+
 	// ²éÒ»ÏÂnotes
 	Mat4f view_matrix = {  
 		right_direction[0], right_direction[1], right_direction[2], 0,     
@@ -201,6 +201,7 @@ void Camera::lookAt(Vec3f eye, Vec3f at, Vec3f up) {
 		-view_direction[0], -view_direction[1], -view_direction[2], 0,
 		0,					0,					0,					1
 	};
+
 	float glViewMatrix[16];
 	view_matrix.getGLMatrix(glViewMatrix);
 	glMultMatrixf(glViewMatrix);
