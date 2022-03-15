@@ -178,9 +178,9 @@ void SampleModel::draw()
 	glRotated(VAL(LEFTTHIGHY), 0.0, 1.0, 0.0);
 	glRotated(VAL(LEFTTHIGHZ), 0.0, 0.0, 1.0);
 	glTranslated(0, -thighy, 0);
-	glRotated(VAL(LEFTTHIGHX), 1.0, 0.0, 0.0);
-	glRotated(VAL(LEFTTHIGHY), 0.0, 1.0, 0.0);
-	glRotated(VAL(LEFTTHIGHZ), 0.0, 0.0, 1.0);
+	glRotated(VAL(LEFTLEGX), 1.0, 0.0, 0.0);
+	glRotated(VAL(LEFTLEGY), 0.0, 1.0, 0.0);
+	glRotated(VAL(LEFTLEGZ), 0.0, 0.0, 1.0);
 	glTranslated(-legx / 2, -legy, -legz / 2);
 	drawBox(legx, legy, legz);
 	glPopMatrix();
@@ -253,9 +253,53 @@ int main()
 	controls[WHOLEZ] = ModelerControl("WHOLEZ", -180, 180, 1, 0);
 	controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
 	controls[ROTATE] = ModelerControl("Rotate", -135, 135, 1, 0);*/
-	for (int i = 0; i < NUMCONTROLS; i++) {
+	/*WHOLEX, WHOLEY, WHOLEZ,
+		HEADX, HEADY, HEADZ,
+		LEFTARMX, LEFTARMY, LEFTARMZ,
+		RIGHTARMX, RIGHTARMY, RIGHTARMZ,
+		LEFTFOREARMX, LEFTFOREARMY, LEFTFOREARMZ,
+		RIGHTFOREARMX, RIGHTFOREARMY, RIGHTFOREARMZ,
+		LEFTTHIGHX, LEFTTHIGHY, LEFTTHIGHZ,
+		RIGHTTHIGHX, RIGHTTHIGHY, RIGHTTHIGHZ,
+		LEFTLEGX, LEFTLEGY, LEFTLEGZ,
+		RIGHTLEGX, RIGHTLEGY, RIGHTLEGZ,
+		LEFTSOLEX,
+		RIGHTSOLEX,*/
+	controls[WHOLEX] = ModelerControl("whole rotate x", -180, 180, 1, 0);
+	controls[WHOLEY] = ModelerControl("whole rotate y", -180, 180, 1, 0);
+	controls[WHOLEZ] = ModelerControl("whole rotate z", -180, 180, 1, 0);
+	controls[HEADX] = ModelerControl("head rotate x", -180, 180, 1, 0);
+	controls[HEADY] = ModelerControl("head rotate y", -180, 180, 1, 0);
+	controls[HEADZ] = ModelerControl("head rotate z", -180, 180, 1, 0);
+	controls[LEFTARMX] = ModelerControl("leftarm rotate x", -180, 180, 1, 0);
+	controls[LEFTARMY] = ModelerControl("leftarm rotate y", -180, 180, 1, 0);
+	controls[LEFTARMZ] = ModelerControl("leftarm rotate z", -180, 180, 1, 0);
+	controls[RIGHTARMX] = ModelerControl("rightarm rotate x", -180, 180, 1, 0);
+	controls[RIGHTARMY] = ModelerControl("rightarm rotate y", -180, 180, 1, 0);
+	controls[RIGHTARMZ] = ModelerControl("rightarm rotate z", -180, 180, 1, 0);
+	controls[LEFTFOREARMX] = ModelerControl("leftforearm rotate x", -180, 180, 1, 0);
+	controls[LEFTFOREARMY] = ModelerControl("leftforearm rotate y", -180, 180, 1, 0);
+	controls[LEFTFOREARMZ] = ModelerControl("leftforearm rotate z", -180, 180, 1, 0);
+	controls[RIGHTFOREARMX] = ModelerControl("rightforearm rotate x", -180, 180, 1, 0);
+	controls[RIGHTFOREARMY] = ModelerControl("rightforearm rotate x", -180, 180, 1, 0);
+	controls[RIGHTFOREARMZ] = ModelerControl("rightforearm rotate x", -180, 180, 1, 0);
+	controls[LEFTTHIGHX] = ModelerControl("left thigh rotate x", -180, 180, 1, 0);
+	controls[LEFTTHIGHY] = ModelerControl("left thigh rotate y", -180, 180, 1, 0);
+	controls[LEFTTHIGHZ] = ModelerControl("left thigh rotate z", -180, 180, 1, 0);
+	controls[RIGHTTHIGHX] = ModelerControl("right thigh rotate x", -180, 180, 1, 0);
+	controls[RIGHTTHIGHY] = ModelerControl("right thigh rotate y", -180, 180, 1, 0);
+	controls[RIGHTTHIGHZ] = ModelerControl("right thigh rotate z", -180, 180, 1, 0);
+	controls[LEFTLEGX] = ModelerControl("left leg rotate x", -180, 180, 1, 0);
+	controls[LEFTLEGY] = ModelerControl("left leg rotate y", -180, 180, 1, 0);
+	controls[LEFTLEGZ] = ModelerControl("left leg rotate z", -180, 180, 1, 0);
+	controls[RIGHTLEGX] = ModelerControl("right leg rotate x", -180, 180, 1, 0);
+	controls[RIGHTLEGY] = ModelerControl("right leg rotate y", -180, 180, 1, 0);
+	controls[RIGHTLEGZ] = ModelerControl("right leg rotate z", -180, 180, 1, 0);
+	controls[LEFTSOLEX] = ModelerControl("left sole rotate x", -180, 180, 1, 0);
+	controls[RIGHTSOLEX] = ModelerControl("right sole rotate x", -180, 180, 1, 0);
+	/*for (int i = 0; i < NUMCONTROLS; i++) {
 	controls[i]= ModelerControl("test", -180, 180, 1, 0);
-	}
+	}*/
 	ModelerApplication::Instance()->Init(&createSampleModel, controls, NUMCONTROLS);
 	return ModelerApplication::Instance()->Run();
 }
