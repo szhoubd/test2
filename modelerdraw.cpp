@@ -515,17 +515,41 @@ void drawTriangle( double x1, double y1, double z1,
 
 
 
-void drawPyramid(double x1, double y1, double z1,
-    double x2, double y2, double z2,
-    double x3, double y3, double z3,
-    double x4, double y4, double z4) {
-    drawTriangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
-    drawTriangle(x1, y1, z1, x2, y2, z2, x4, y4, z4);
-    drawTriangle(x1, y1, z1, x3, y3, z3, x4, y4, z4);
-    drawTriangle(x2, y2, z2, x3, y3, z3, x4, y4, z4);
+//void drawPyramid(double x1, double y1, double z1,
+//    double x2, double y2, double z2,
+//    double x3, double y3, double z3,
+//    double x4, double y4, double z4) {
+//    drawTriangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
+//    drawTriangle(x1, y1, z1, x2, y2, z2, x4, y4, z4);
+//    drawTriangle(x1, y1, z1, x3, y3, z3, x4, y4, z4);
+//    drawTriangle(x2, y2, z2, x3, y3, z3, x4, y4, z4);
+//}
+
+void drawTorus(double r1, double r2) {
+    ModelerDrawState* mds = ModelerDrawState::Instance();
+
+    _setupOpenGl();
+
+    if (mds->m_rayFile)
+    {
+        _dump_current_modelview();
+        fprintf(mds->m_rayFile,
+            "polymesh ");
+        _dump_current_material();
+        fprintf(mds->m_rayFile, "})\n");
+    }
+    else
+    {
+        int n = 100 * (r1 + (r2 - r1)/2);
+        for (int i = 0; i < n+1; i++) {
+            glPushMatrix();
+            glRotated(360/n*i, 0, 1, 0);
+            glTranslated(r1 + (r2 - r1) / 2, 0, 0);
+            drawSphere(r2 - r1);
+            glPopMatrix();
+        }
+    }
 }
-
-
 
 
 
