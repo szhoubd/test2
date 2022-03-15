@@ -8,11 +8,30 @@
 // This is a list of the controls for the SampleModel
 // We'll use these constants to access the values 
 // of the controls from the user interface.
+//enum SampleModelControls
+//{ 
+//	XPOS, YPOS, ZPOS, HEIGHT, ROTATE, NUMCONTROLS
+//};
+// body, head,eys, big arm, forearm, palm, finger
+//thigh, leg,sole
+//
 enum SampleModelControls
-{ 
-	XPOS, YPOS, ZPOS, HEIGHT, ROTATE, NUMCONTROLS
+{
+	WHOLEX, WHOLEY, WHOLEZ,
+	HEADX, HEADY, HEADZ,
+	LEFTARMX, LEFTARMY, LEFTARMZ,
+	RIGHTARMX,RIGHTARMY,RIGHTARMZ,
+	LEFTFOREARMX,LEFTFOREARMY,LEFTFOREARMZ,
+	RIGHTFOREARMX,RIGHTFOREARMY,RIGHTFOREARMZ,
+	LEFTTHIGHX, LEFTTHIGHY, LEFTTHIGHZ,
+	RIGHTTHIGHX,RIGHTTHIGHY, RIGHTTHIGHZ,
+	LEFTLEGX, LEFTLEGY, LEFTLEGZ,
+	RIGHTLEGX, RIGHTLEGY, RIGHTLEGZ,
+	 LEFTSOLEX,
+	 RIGHTSOLEX,
+	//BODY, ROTATE,
+	NUMCONTROLS
 };
-
 // Colors
 #define COLOR_RED		1.0f, 0.0f, 0.0f
 #define COLOR_GREEN		0.0f, 1.0f, 0.0f
