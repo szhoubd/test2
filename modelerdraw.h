@@ -82,7 +82,11 @@ void drawSphere(double r);
 
 // Draw an axis-aligned box from origin to (x,y,z)
 void drawBox( double x, double y, double z );
-
+void drawPalm(double x, double y, double z);
+void drawPyramid(double x1, double y1, double z1,
+	double x2, double y2, double z2,
+	double x3, double y3, double z3,
+	double x4, double y4, double z4);
 // Draw an axis-aligned texture box from origin to (x,y,z)
 void drawTextureBox( double x, double y, double z );
 
