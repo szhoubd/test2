@@ -16,7 +16,10 @@
 //thigh, leg,sole
 //
 enum SampleModelControls
-{
+{	
+	BODYX,BODYY,BODYZ,
+	LEVEL,
+	SIT,
 	WHOLEX, WHOLEY, WHOLEZ,
 	HEADX, HEADY, HEADZ,
 	LEFTARMX, LEFTARMY, LEFTARMZ,
