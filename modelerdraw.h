@@ -11,6 +11,8 @@
 #include "modelerglobals.h"
 
 
+#include "stb_image.h"
+
 enum DrawModeSetting_t 
 { NONE=0, NORMAL, WIREFRAME, FLATSHADE, };
 
@@ -98,4 +100,5 @@ void drawTriangle( double x1, double y1, double z1,
 			       double x2, double y2, double z2,
 			       double x3, double y3, double z3 );
 void drawTorus(double r1, double r2);
+void drawLsystem(int level, float bodyx, float bodyy, float bodyz);
 #endif
