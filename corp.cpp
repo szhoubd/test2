@@ -247,6 +247,8 @@ void SampleModel::draw()
 		//glTranslated(-1.5, 0, -2);
 		//glScaled(3, 1, 4);
 		drawTexture(bodyx, bodyy, bodyz);
+
+		drawTorus(1.5, 2);
 		//glPopMatrix();
 
 		// draw head
@@ -426,7 +428,7 @@ void SampleModel::draw()
 			}
 			glPopMatrix();
 		}
-		//drawTorus(1.5, 2);
+		
 	//for (int i = 0; i < 100; i++) {
 	//	glPushMatrix();
 	//	glRotated(3.6 * i, 0, 1, 0);
