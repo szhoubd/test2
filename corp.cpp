@@ -10,7 +10,10 @@
 #include "modelerglobals.h"
 
 #include "stb_image.h"
+#include <math.h> 
 
+int time = 0;
+int seated = 0;
 
 // Texture loading, reference: https://learnopengl.com/. Really helped me out!
 
@@ -155,6 +158,8 @@ void drawTexture(double x, double y, double z)
 // method of ModelerView to draw out SampleModel
 void SampleModel::draw()
 {
+
+	time++;
 	//drawLsystem();
 	// This call takes care of a lot of the nasty projection 
 	// matrix stuff.  Unless you want to fudge directly with the 
@@ -186,15 +191,15 @@ void SampleModel::draw()
 	glPushMatrix();
 	setAmbientColor(.1f, .5f, .1f);
 	glTranslated(-5, 0, -5);
+	glTranslated(0, -1.5 * bodyy, 0);
 	drawBox(10, 0.01f, 10);
 	glPopMatrix();
 	
 	if (VAL(LSYSTEM) == 1) {
-		
-
 		drawLsystem(VAL(LSYSTEMLEVEL), bodyx, bodyy, bodyz);
 	}
 	else {
+
 		// draw the sample model
 		setAmbientColor(.1f, .1f, .1f);
 		setDiffuseColor(COLOR_BLUE);
@@ -202,21 +207,40 @@ void SampleModel::draw()
 		//glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
 
 		 //rotate the whole body
-		if (VAL(SIT) == 0) {
+		if (VAL(SIT) == 0) {/*
+			glTranslated(0, 1.5 * bodyy, 0);*/
+			if (seated == 1) {
+				ModelerApplication::Instance()->SetControlValue(LEFTTHIGHX, 0);
+				ModelerApplication::Instance()->SetControlValue(RIGHTTHIGHX, 0);
+				ModelerApplication::Instance()->SetControlValue(LEFTARMX, 0);
+				ModelerApplication::Instance()->SetControlValue(RIGHTARMX, 0);
+				seated = 0;
+			}
+
 			glTranslated(VAL(TRANSLATEX), VAL(TRANSLATEY), VAL(TRANSLATEZ));
-			glRotated(VAL(WHOLEX), 1.0, 0.0, 0.0);
-			glRotated(VAL(WHOLEY), 0.0, 1.0, 0.0);
-			glRotated(VAL(WHOLEZ), 0.0, 0.0, 1.0);
+			if (VAL(ANIMATE) == 0) {
+				glRotated(VAL(WHOLEX), 1.0, 0.0, 0.0);
+				glRotated(VAL(WHOLEY), 0.0, 1.0, 0.0);
+				glRotated(VAL(WHOLEZ), 0.0, 0.0, 1.0);
+			}
+			else if (VAL(ANIMATE) == 1) {
+				glRotated(VAL(WHOLEX) - 5 * sin(0.1 * time), 1.0, 0.0, 0.0);
+				glRotated(VAL(WHOLEY), 0.0, 1.0, 0.0);
+				glRotated(VAL(WHOLEZ), 0.0, 0.0, 1.0);
+			}
 
 		}
 		else {
+			seated = 1;
 			glRotated(VAL(WHOLEX), 1.0, 0.0, 0.0);
 			glRotated(VAL(WHOLEY), 0.0, 1.0, 0.0);
 			glRotated(VAL(WHOLEZ), 0.0, 0.0, 1.0);
+			glTranslated(0,-thighy-legy-soley,0);
 			ModelerApplication::Instance()->SetControlValue(LEFTTHIGHX, 90);
 			ModelerApplication::Instance()->SetControlValue(RIGHTTHIGHX, 90);
 			ModelerApplication::Instance()->SetControlValue(LEFTARMX, 180);
 			ModelerApplication::Instance()->SetControlValue(RIGHTARMX, 180);
+
 		}
 		//draw body
 		//glPushMatrix();
@@ -239,17 +263,31 @@ void SampleModel::draw()
 		if (VAL(LEVEL) >= 2) {
 			glPushMatrix();
 			glTranslated(bodyx, bodyy, bodyz / 2);
-			glRotated(VAL(RIGHTARMX), 1.0, 0.0, 0.0);
-			glRotated(VAL(RIGHTARMY), 0.0, 1.0, 0.0);
-			glRotated(VAL(RIGHTARMZ), 0.0, 0.0, 1.0);
+			if (VAL(ANIMATEARM) == 0) {
+				glRotated(VAL(RIGHTARMX), 1.0, 0.0, 0.0);
+				glRotated(VAL(RIGHTARMY), 0.0, 1.0, 0.0);
+				glRotated(VAL(RIGHTARMZ), 0.0, 0.0, 1.0);
+			}
+			else if (VAL(ANIMATEARM) == 1) {
+				glRotated(VAL(RIGHTARMX) + time, 1.0, 0.0, 0.0);
+				glRotated(VAL(RIGHTARMY) + time, 0.0, 1.0, 0.0);
+				glRotated(VAL(RIGHTARMZ) + time, 0.0, 0.0, 1.0);
+			}
 			drawBox(armx, army, armz);
 			//draw right forearm (Level 3)
 			if (VAL(LEVEL) >= 3) {
 				glPushMatrix();
 				glTranslated(0, army, 0);
-				glRotated(VAL(RIGHTFOREARMZ), 1.0, 0.0, 0.0);
-				glRotated(VAL(RIGHTFOREARMY), 0.0, 1.0, 0.0);
-				glRotated(VAL(RIGHTFOREARMX), 0.0, 0.0, 1.0);
+				if (VAL(ANIMATEFOREARM) == 0) {
+					glRotated(VAL(RIGHTFOREARMZ), 1.0, 0.0, 0.0);
+					glRotated(VAL(RIGHTFOREARMY), 0.0, 1.0, 0.0);
+					glRotated(VAL(RIGHTFOREARMX), 0.0, 0.0, 1.0);
+				}
+				else if (VAL(ANIMATEFOREARM) == 1) {
+					glRotated(VAL(RIGHTFOREARMZ) + time, 1.0, 0.0, 0.0);
+					glRotated(VAL(RIGHTFOREARMY) - time, 0.0, 1.0, 0.0);
+					glRotated(VAL(RIGHTFOREARMX) + time, 0.0, 0.0, 1.0);
+				}
 				drawBox(armx, army, armz);
 				glPopMatrix();
 			}
@@ -261,31 +299,53 @@ void SampleModel::draw()
 			glPushMatrix();
 			glTranslated(-armx, bodyy, bodyz / 2);
 			glTranslated(armx, 0, 0);
-			glRotated(VAL(LEFTARMX), 1.0, 0.0, 0.0);
-			glRotated(VAL(LEFTARMY), 0.0, 1.0, 0.0);
-			glRotated(VAL(LEFTARMZ), 0.0, 0.0, 1.0);
+			if (VAL(ANIMATEARM) == 0) {
+				glRotated(VAL(LEFTARMX), 1.0, 0.0, 0.0);
+				glRotated(VAL(LEFTARMY), 0.0, 1.0, 0.0);
+				glRotated(VAL(LEFTARMZ), 0.0, 0.0, 1.0);
+			}
+			else if (VAL(ANIMATEARM) == 1) {
+				glRotated(VAL(LEFTARMX) - time, 1.0, 0.0, 0.0);
+				glRotated(VAL(LEFTARMY) + time, 0.0, 1.0, 0.0);
+				glRotated(VAL(LEFTARMZ) - time, 0.0, 0.0, 1.0);
+			}
 			glTranslated(-armx, 0, 0);
 			drawBox(armx, army, armz);
 			//draw left forearm (Level 3)
 			if (VAL(LEVEL) >= 3) {
 				glPushMatrix();
 				glTranslated(0, army, 0);
-				glRotated(VAL(LEFTFOREARMX), 1.0, 0.0, 0.0);
-				glRotated(VAL(LEFTFOREARMY), 0.0, 1.0, 0.0);
-				glRotated(VAL(LEFTFOREARMZ), 0.0, 0.0, 1.0);
+				if (VAL(ANIMATEFOREARM) == 0){
+					glRotated(VAL(LEFTFOREARMX), 1.0, 0.0, 0.0);
+					glRotated(VAL(LEFTFOREARMY), 0.0, 1.0, 0.0);
+					glRotated(VAL(LEFTFOREARMZ), 0.0, 0.0, 1.0);
+				}
+				else if (VAL(ANIMATEFOREARM) == 1) {
+					glRotated(VAL(LEFTFOREARMX) + time, 1.0, 0.0, 0.0);
+					glRotated(VAL(LEFTFOREARMY) + time, 0.0, 1.0, 0.0);
+					glRotated(VAL(LEFTFOREARMZ) + time, 0.0, 0.0, 1.0);
+				}
 				drawBox(armx, army, armz);
 				glPopMatrix();
 			}
 			glPopMatrix();
 
 		}
+
 		//draw right thigh (Level 2)
 		if (VAL(LEVEL) >= 2) {
 			glPushMatrix();
 			glTranslated(bodyx, 0, bodyz / 2);
-			glRotated(VAL(RIGHTTHIGHX), 1.0, 0.0, 0.0);
-			glRotated(VAL(RIGHTTHIGHY), 0.0, 1.0, 0.0);
-			glRotated(VAL(RIGHTTHIGHZ), 0.0, 0.0, 1.0);
+			if (VAL(ANIMATETHIGH) == 0){
+				glRotated(VAL(RIGHTTHIGHX), 1.0, 0.0, 0.0);
+				glRotated(VAL(RIGHTTHIGHY), 0.0, 1.0, 0.0);
+				glRotated(VAL(RIGHTTHIGHZ), 0.0, 0.0, 1.0);
+			}
+			else if (VAL(ANIMATETHIGH) == 1) {
+				glRotated(VAL(RIGHTTHIGHX) + 10 * sin(0.2*time), 1.0, 0.0, 0.0);
+				glRotated(VAL(RIGHTTHIGHY) + 10 * cos(0.2*time), 0.0, 1.0, 0.0);
+				glRotated(VAL(RIGHTTHIGHZ), 0.0, 0.0, 1.0);
+			}
 			glPushMatrix();
 			glTranslated(-thighx / 2, -thighy, -thighz / 2);
 			drawBox(thighx, thighy, thighz);
@@ -324,9 +384,16 @@ void SampleModel::draw()
 		if (VAL(LEVEL) >= 2) {
 			glPushMatrix();
 			glTranslated(0, 0, bodyz / 2);
-			glRotated(VAL(LEFTTHIGHX), 1.0, 0.0, 0.0);
-			glRotated(VAL(LEFTTHIGHY), 0.0, 1.0, 0.0);
-			glRotated(VAL(LEFTTHIGHZ), 0.0, 0.0, 1.0);
+			if (VAL(ANIMATETHIGH) == 0) {
+				glRotated(VAL(LEFTTHIGHX), 1.0, 0.0, 0.0);
+				glRotated(VAL(LEFTTHIGHY), 0.0, 1.0, 0.0);
+				glRotated(VAL(LEFTTHIGHZ), 0.0, 0.0, 1.0);
+			}
+			else if (VAL(ANIMATETHIGH) == 1) {
+				glRotated(VAL(LEFTTHIGHX) - 10 * sin(0.2*time), 1.0, 0.0, 0.0);
+				glRotated(VAL(LEFTTHIGHY), 0.0, 1.0, 0.0);
+				glRotated(VAL(LEFTTHIGHZ) - 10 * sin(0.2*time), 0.0, 0.0, 1.0);
+			}
 			glPushMatrix();
 			glTranslated(-thighx / 2, -thighy, -thighz / 2);
 			drawBox(thighx, thighy, thighz);
@@ -405,6 +472,10 @@ int main()
 		RIGHTLEGX, RIGHTLEGY, RIGHTLEGZ,
 		LEFTSOLEX,
 		RIGHTSOLEX,*/
+	controls[ANIMATE] = ModelerControl("ANIMATE", 0, 1, 1, 0);;
+	controls[ANIMATEARM] = ModelerControl("ANIMATEARM", 0, 1, 1, 0);;
+	controls[ANIMATEFOREARM] = ModelerControl("ANIMATEFOREARM", 0, 1, 1, 0);;
+	controls[ANIMATETHIGH] = ModelerControl("ANIMATETHIGH", 0, 1, 1, 0);;
 	controls[LSYSTEM] = ModelerControl("draw Lsystem", 0, 1, 1, 0);
 	controls[LSYSTEMLEVEL] = ModelerControl("Lsystem depth", 1, 4, 1, 4);
 	controls[BODYX] = ModelerControl("body width", 0, 3, 0.1, 1);
