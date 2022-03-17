@@ -84,7 +84,7 @@ void Camera::calculateViewingTransformParameters()
 	MakeHTrans(dollyXform, Vec3f(0,0,mDolly));
 	MakeHRotY(azimXform, mAzimuth);
 	MakeHRotX(elevXform, mElevation);
-	MakeDiagonal(twistXform, 1.0f);
+	MakeHRotZ(twistXform, mTwist);
 	MakeHTrans(originXform, mLookAt);
 	
 	mPosition = Vec3f(0,0,0);
@@ -92,10 +92,9 @@ void Camera::calculateViewingTransformParameters()
 	mPosition = originXform * (azimXform * (elevXform * (dollyXform * mPosition)));
 
 	if ( fmod((double)mElevation, 2.0*M_PI) < 3*M_PI/2 && fmod((double)mElevation, 2.0*M_PI) > M_PI/2 )
-		mUpVector= Vec3f(0,-1,0);
+		mUpVector= twistXform * Vec3f(0,-1,0);
 	else
-		mUpVector= Vec3f(0,1,0);
-
+		mUpVector= twistXform * Vec3f(0,1,0);
 	mDirtyTransform = false;
 }
 
@@ -156,10 +155,14 @@ void Camera::dragMouse( int x, int y )
 		{
 			float dDolly = -mouseDelta[1] * kMouseZoomSensitivity;
 			setDolly(getDolly() + dDolly);
-			break;
+			// No break, 所以可以继续Twist case，将缩放和Z轴旋转合并
 		}
 	case kActionTwist:
-		// Not implemented
+		{
+			float dTwist = mouseDelta[1] * kMouseRotationSensitivity;
+			setTwist(getTwist() + dTwist);
+			break;
+		}
 	default:
 		break;
 	}
