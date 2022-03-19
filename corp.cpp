@@ -12,8 +12,10 @@
 #include "stb_image.h"
 #include <math.h> 
 #include <stdlib.h> 
+#include "camera.h"
+
 # define PI           3.14159265358979323846 
-int time = 0;
+int ptime = 0;
 int seated = 0;
 int L_system = 0;
 // Texture loading, reference: https://learnopengl.com/. Really helped me out!
@@ -159,8 +161,11 @@ void drawTexture(double x, double y, double z)
 // method of ModelerView to draw out SampleModel
 void SampleModel::draw()
 {
+	if (VAL(FRAMEALL) == 1)
+		m_camera->setDolly(-20);
 
-	time++;
+	ptime++;
+	int time = ptime;
 	//drawLsystem();
 	// This call takes care of a lot of the nasty projection 
 	// matrix stuff.  Unless you want to fudge directly with the 
@@ -188,6 +193,7 @@ void SampleModel::draw()
 	float pyramid = thighx;
 	// draw the floor
 	setAmbientColor(.1f, .1f, .1f);
+	setSpecularColor(.0f, .5f, .0f);
 	setDiffuseColor(COLOR_RED);
 	glPushMatrix();
 	setAmbientColor(.1f, .5f, .1f);
@@ -501,10 +507,11 @@ int main()
 		RIGHTLEGX, RIGHTLEGY, RIGHTLEGZ,
 		LEFTSOLEX,
 		RIGHTSOLEX,*/
+	controls[FRAMEALL] = ModelerControl("Frame all", 0, 1, 1, 0);
 	controls[MOOD] = ModelerControl("Mood", 1, 10, 1, 1);
-	controls[ANIMATE] = ModelerControl("ANIMATE", 0, 1, 1, 0);;
-	controls[ANIMATEARM] = ModelerControl("ANIMATEARM", 0, 1, 1, 0);;
-	controls[ANIMATEFOREARM] = ModelerControl("ANIMATEFOREARM", 0, 1, 1, 0);;
+	controls[ANIMATE] = ModelerControl("ANIMATE", 0, 1, 1, 0);
+	controls[ANIMATEARM] = ModelerControl("ANIMATEARM", 0, 1, 1, 0);
+	controls[ANIMATEFOREARM] = ModelerControl("ANIMATEFOREARM", 0, 1, 1, 0);
 	controls[ANIMATETHIGH] = ModelerControl("ANIMATETHIGH", 0, 1, 1, 0);
 	controls[ANIMATELEG] = ModelerControl("ANIMATELEG", 0, 1, 1, 0);
 	controls[LSYSTEM] = ModelerControl("draw Lsystem", 0, 1, 1, 0);
